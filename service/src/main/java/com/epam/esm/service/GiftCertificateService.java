@@ -8,6 +8,7 @@ import com.epam.esm.dao.exception.CertificateNotFoundException;
 import com.epam.esm.util.CertificateUpdater;
 import com.epam.esm.util.TagVerification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -68,6 +69,7 @@ public class GiftCertificateService {
 
     public List<GiftCertificate> sortByDateAndName(String typeSort) { return giftCertificatesDao.sortByDateAndName(typeSort); }
 
+    @Transactional
     public void save(GiftCertificate giftCertificate) {
         if (giftCertificate.getTag()!=null) {
             tagVerification.checkAndSaveTagIfNotExist(giftCertificate);
@@ -78,6 +80,7 @@ public class GiftCertificateService {
         giftCertificatesDao.save(giftCertificate);
     }
 
+    @Transactional
     public void update(GiftCertificate giftCertificate) throws CertificateNotFoundException {
         if (giftCertificate.getTag()!=null) {
             tagVerification.checkAndSaveTagIfNotExist(giftCertificate);
