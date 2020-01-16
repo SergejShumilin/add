@@ -10,28 +10,21 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ConnectionPool {
 
     private final DataSource driverDataSource;
-    private LinkedBlockingQueue<ProxyConnection> connectionQueue;
-    private List<ProxyConnection> usedConnections = new ArrayList<>();
+    private static LinkedBlockingQueue<ProxyConnection> connectionQueue;
+    private static List<ProxyConnection> usedConnections = new ArrayList<>();
 
     public ConnectionPool(DataSource driverDataSource, int poolSize) {
         this.driverDataSource = driverDataSource;
         connectionQueue = new LinkedBlockingQueue<>(poolSize);
-        for (int i = 0; i < poolSize; i++) {
-            connectionQueue.offer(createConnection());
-        }
-    }
-
-    /**
-     * @return new ProxyConnection
-     */
-    private ProxyConnection createConnection() {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = new ProxyConnection(driverDataSource.getConnection());
+            for (int i = 0; i < poolSize; i++) {
+                connectionQueue.offer(proxyConnection);
+            }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
-        return proxyConnection;
     }
 
     /**
@@ -51,7 +44,7 @@ public class ConnectionPool {
     /**
      * @param connection return connection to pool
      */
-    /*package private*/ void releaseConnection(ProxyConnection connection) {
+    public static void releaseConnection(ProxyConnection connection) {
         try {
             boolean contains = usedConnections.contains(connection);
             if (contains) {
@@ -61,7 +54,7 @@ public class ConnectionPool {
                 throw new IllegalArgumentException();
             }
         } catch (InterruptedException e) {
-            connectionQueue.offer(createConnection());
+
         }
     }
 
