@@ -22,11 +22,11 @@ public class GiftCertificateServiceTest {
     @InjectMocks
     private GiftCertificateService service;
 
-    @Test
-    public void testDeleteShouldGiftCertificateDaoCallMethodDelete() {
-        service.delete(1);
-        Mockito.verify(giftCertificateDao, Mockito.times(1)).delete(1);
-    }
+//    @Test
+//    public void testDeleteShouldGiftCertificateDaoCallMethodDelete() {
+//        service.delete(1);
+//        Mockito.verify(giftCertificateDao, Mockito.times(1)).delete(1);
+//    }
 
     @Test
     public void testFindAllShouldGiftCertificateDaoCallMethodFindAll() {
@@ -102,8 +102,8 @@ public class GiftCertificateServiceTest {
         service.findByTag("tag");
     }
 
-    @Test(expected = CertificateNotFoundException.class)
-    public void testUpdateShouldThrowException() throws CertificateNotFoundException {
-        service.update(new GiftCertificate());
-    }
+//    @Test(expected = CertificateNotFoundException.class)
+//    public void testUpdateShouldThrowException() throws CertificateNotFoundException {
+//        service.update(new GiftCertificate());
+//    }
 }

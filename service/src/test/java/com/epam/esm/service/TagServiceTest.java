@@ -27,41 +27,27 @@ public class TagServiceTest {
         Mockito.verify(tagDaoImp, Mockito.times(1)).save(tag);
     }
 
-    @Test
-    public void testDeleteShouldTagDaoCallMethodDelete(){
-        tagService.delete(1);
-        Mockito.verify(tagDaoImp, Mockito.times(1)).delete(1);
-    }
+//    @Test
+//    public void testDeleteShouldTagDaoCallMethodDelete(){
+//        tagService.delete(1);
+//        Mockito.verify(tagDaoImp, Mockito.times(1)).delete(1);
+//    }
 
     @Test
     public void testFindAllShouldTagDaoCallMethodFindAll(){
-    tagService.findAll();
-    Mockito.verify(tagDaoImp, Mockito.times(1)).findAll();
+        tagService.findAll();
+        Mockito.verify(tagDaoImp, Mockito.times(1)).findAll();
     }
 
-    @Test
-    public void testFindByIdShouldTagDaoCallMethodFindById()  {
-        tagService.findById(1);
-        Mockito.verify(tagDaoImp, Mockito.times(1)).findById(1);
-    }
+//    @Test
+//    public void testFindByIdShouldTagDaoCallMethodFindById()  {
+//        tagService.findById(1);
+//        Mockito.verify(tagDaoImp, Mockito.times(1)).findById(1);
+//    }
 
-    @Test
-    public void testFindByNameShouldTagDaoCallMethodFindByName() {
-        tagService.findByName("name");
-        Mockito.verify(tagDaoImp, Mockito.times(1)).findByName("name");
-    }
-
-    @Test
-    public void testIsExistShouldReturnTrueWhenTagExist() {
-        Mockito.when(tagDaoImp.isExistById(1)).thenReturn(true);
-        boolean exist = tagService.isExist(1);
-        Assert.assertTrue(exist);
-    }
-
-    @Test
-    public void testIsExistByNameShouldReturnTrueWhenTagExist() {
-        Mockito.when(tagDaoImp.isExistByName("name")).thenReturn(true);
-        boolean exist = tagService.isExistByName("name");
-        Assert.assertTrue(exist);
-    }
+//    @Test
+//    public void testFindByNameShouldTagDaoCallMethodFindByName() {
+//        tagService.findByName("name");
+//        Mockito.verify(tagDaoImp, Mockito.times(1)).findByName("name");
+//    }
 }

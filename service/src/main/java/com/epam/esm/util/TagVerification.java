@@ -1,25 +1,25 @@
 package com.epam.esm.util;
 
+import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.entity.GiftCertificate;
 import com.epam.esm.dao.entity.Tag;
-import com.epam.esm.service.TagService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TagVerification {
 
-    private final TagService tagService;
+    private final TagDao<Tag> tagDao;
 
-    public TagVerification(TagService tagService) {
-        this.tagService = tagService;
+    public TagVerification(TagDao<Tag> tagDao) {
+        this.tagDao = tagDao;
     }
 
     public void checkAndSaveTagIfNotExist(GiftCertificate giftCertificate){
         Tag tag = giftCertificate.getTag();
-        if (!tagService.isExistByName(tag.getName())) {
-            tagService.save(tag);
+        if (!tagDao.isExistByName(tag.getName())) {
+            tagDao.save(tag);
         }
-        tag = tagService.findByName(tag.getName());
+        tag = tagDao.findByName(tag.getName());
         giftCertificate.setTag(tag);
     }
 }

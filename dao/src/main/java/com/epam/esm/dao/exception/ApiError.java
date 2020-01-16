@@ -2,19 +2,19 @@ package com.epam.esm.dao.exception;
 
 
 public class ApiError {
-    private int status;
+    private String status;
     private String message;
 
-    public ApiError(int status, String message) {
-        this.status = status;
+    public ApiError(String message, String status) {
         this.message = message;
+        this.status = status;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
