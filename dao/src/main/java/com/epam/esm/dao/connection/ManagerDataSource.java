@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ManagerDataSource extends DriverManagerDataSource {
-    ConnectionPool connectionPool;
+    private ConnectionPool connectionPool;
 
     public ManagerDataSource(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -16,4 +16,6 @@ public class ManagerDataSource extends DriverManagerDataSource {
     public Connection getConnection() throws SQLException {
         return connectionPool.getConnection();
     }
+
+
 }

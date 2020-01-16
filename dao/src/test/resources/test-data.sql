@@ -1,0 +1,3 @@
+INSERT INTO tags VALUES(2, '1');
+INSERT INTO certificates VALUES (2, '1','1',100,'2020-01-15','2020-01-15', 30, 2);
+

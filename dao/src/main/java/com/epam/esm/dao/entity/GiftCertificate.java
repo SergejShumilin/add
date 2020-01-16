@@ -79,4 +79,5 @@ public class GiftCertificate extends AbstractEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), description, price, createDate, lastUpdateDate, duration, tag);
     }
+
 }
