@@ -1,7 +1,10 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dao.entity.GiftCertificate;
-import com.epam.esm.service.GiftCertificateService;
+import com.epam.esm.dao.entity.Parameters;
+import com.epam.esm.dao.repository.CertificateSqlSpecification;
+import com.epam.esm.dao.repository.specification.SpecificationFactory;
+import com.epam.esm.service.CertificateService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,62 +12,56 @@ import java.util.List;
 @RestController
 @RequestMapping("/certificates")
 public class CertificateController {
-    private final GiftCertificateService giftCertificateService;
+    private final CertificateService service;
 
-    public CertificateController(GiftCertificateService giftCertificateService) {
-        this.giftCertificateService = giftCertificateService;
+    public CertificateController(CertificateService service) {
+        this.service = service;
+    }
+
+
+    @PostMapping(value = "/param")
+    public List<GiftCertificate> get(@RequestBody Parameters parameters) {
+        CertificateSqlSpecification sqlSpecification = processRequest(parameters);
+        return service.query(sqlSpecification);
     }
 
     @GetMapping
     public List<GiftCertificate> findAll() {
-        return giftCertificateService.findAll();
-    }
-
-    @GetMapping(value = "/{name}")
-    public List<GiftCertificate> findByPartName(@PathVariable String name)  {
-        return giftCertificateService.findByPartName(name);
-    }
-    @GetMapping(value = "tag_name/{name}")
-    public List<GiftCertificate> findByTag(@PathVariable String tagName) {
-        return giftCertificateService.findByTag(tagName);
-    }
-
-    @GetMapping(value = "description/{description}")
-    public List<GiftCertificate> findByDescription(@PathVariable String description) {
-        return giftCertificateService.findByDescription(description);
-    }
-
-    @PostMapping
-    public List<GiftCertificate> save(@RequestBody GiftCertificate giftCertificate) {
-        giftCertificateService.save(giftCertificate);
-        return giftCertificateService.findAll();
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public List<GiftCertificate> delete(@PathVariable int id) {
-        giftCertificateService.delete(id);
-        return giftCertificateService.findAll();
-    }
-
-    @GetMapping(value = "/date_sort/{type}")
-    public List<GiftCertificate> sortByDate(@PathVariable String type) {
-        return giftCertificateService.sortByDate(type);
-    }
-
-    @GetMapping(value = "/name_sort/{type}")
-    public List<GiftCertificate> sortByName(@PathVariable String type) {
-        return giftCertificateService.sortByName(type);
-    }
-
-    @GetMapping(value = "/sort_date_name/{type}")
-    public List<GiftCertificate> sortByDateAndName(@PathVariable String type) {
-        return giftCertificateService.sortByDateAndName(type);
+        return service.findAll();
     }
 
     @PutMapping
     public List<GiftCertificate> update(@RequestBody GiftCertificate giftCertificate) {
-        giftCertificateService.update(giftCertificate);
-        return giftCertificateService.findAll();
+        service.update(giftCertificate);
+        return service.findAll();
     }
 
+    @PostMapping
+    public List<GiftCertificate> save(@RequestBody GiftCertificate giftCertificate) {
+        service.save(giftCertificate);
+        return service.findAll();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public List<GiftCertificate> delete(@PathVariable int id) {
+        service.delete(id);
+        return service.findAll();
+    }
+
+    private CertificateSqlSpecification processRequest(Parameters parameters){
+        CertificateSqlSpecification sqlSpecification = null;
+        SpecificationFactory specificationFactory = new SpecificationFactory(parameters);
+        if (parameters.getName() != null) {
+            sqlSpecification = specificationFactory.create("byName");
+        } else if (parameters.getDescription() != null) {
+            sqlSpecification = specificationFactory.create("byDescription");
+        } else if (parameters.getTagName() != null) {
+            sqlSpecification = specificationFactory.create("byTagName");
+        } else if (parameters.getSort() != null && parameters.getSort().equals("date") && parameters.getTypeSort() != null) {
+            sqlSpecification = specificationFactory.create("sortByDate");
+        } else if (parameters.getSort() != null && parameters.getSort().equals("name") && parameters.getTypeSort() != null) {
+            sqlSpecification = specificationFactory.create("sortByName");
+        }
+        return sqlSpecification;
+    }
 }

@@ -2,10 +2,11 @@ package com.epam.esm.dao.entity;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Component
-public class GiftCertificate extends AbstractEntity {
+public class GiftCertificate extends AbstractEntity implements Serializable {
     private String description;
     private int price;
     private String createDate;
