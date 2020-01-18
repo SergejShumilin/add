@@ -1,7 +1,7 @@
-package com.epam.esm.repository.specification;
+package com.epam.esm.repository.specification.certificate;
 
 import com.epam.esm.entity.Parameters;
-import com.epam.esm.repository.SqlSpecification;
+import com.epam.esm.repository.specification.SqlSpecification;
 
 public class CertificateSpecificationByTagName implements SqlSpecification {
     private Parameters parameters;

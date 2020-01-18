@@ -3,7 +3,7 @@ package com.epam.esm.service;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.CertificateNotFoundException;
 import com.epam.esm.mapper.GiftCertificateMapper;
-import com.epam.esm.repository.SqlSpecification;
+import com.epam.esm.repository.specification.SqlSpecification;
 import com.epam.esm.repository.impl.CertificationRepositoryImpl;
 import com.epam.esm.util.CertificateUpdater;
 import com.epam.esm.util.TagVerification;

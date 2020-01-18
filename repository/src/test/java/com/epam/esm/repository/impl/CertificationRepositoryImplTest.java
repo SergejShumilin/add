@@ -4,7 +4,7 @@ import com.epam.esm.config.DaoConfig;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.entity.Parameters;
 import com.epam.esm.repository.mapper.GiftCertificateMapperTest;
-import com.epam.esm.repository.specification.CertificateSpecificationByCertificateName;
+import com.epam.esm.repository.specification.certificate.CertificateSpecificationByCertificateName;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,19 +1,20 @@
-package com.epam.esm.repository.specification;
+package com.epam.esm.repository.specification.factory;
 
 import com.epam.esm.entity.Parameters;
-import com.epam.esm.repository.SqlSpecification;
+import com.epam.esm.repository.specification.SqlSpecification;
+import com.epam.esm.repository.specification.certificate.*;
 
-public class SpecificationFactory {
+public class SpecificationCertificateFactory {
     private Parameters parameters;
 
-    public SpecificationFactory(Parameters parameters) {
+    public SpecificationCertificateFactory(Parameters parameters) {
         this.parameters = parameters;
     }
 
     public SqlSpecification create(String action) {
         switch (action) {
             case "findAllCertificates":
-                return new CertificateSpecificayionFindAll();
+                return new CertificateSpecificationFindAll();
             case "byName":
                 return new CertificateSpecificationByCertificateName(parameters);
             case "byDescription":
@@ -25,7 +26,7 @@ public class SpecificationFactory {
             case "sortByName":
                 return new CertificateSpecificationSortByName(parameters);
             default:
-                throw new IllegalArgumentException("Unknown specification");
+                throw new IllegalArgumentException("Unknown parameters");
         }
     }
 }

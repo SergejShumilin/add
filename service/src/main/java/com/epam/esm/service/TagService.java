@@ -1,54 +1,39 @@
 package com.epam.esm.service;
 
-import com.epam.esm.TagDao;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.TagExistsException;
 import com.epam.esm.exception.TagNotFoundException;
+import com.epam.esm.repository.TagRepository;
+import com.epam.esm.repository.specification.SqlSpecification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class TagService {
-    private final TagDao<Tag> tagDao;
+    private final TagRepository<Tag> tagRepository;
 
-    public TagService(TagDao<Tag> tagDao) {
-        this.tagDao = tagDao;
+    public TagService(TagRepository<Tag> tagRepository) {
+        this.tagRepository = tagRepository;
     }
 
-    public List<Tag> findAll() {
-        return tagDao.findAll();
+    public List<Tag> query(SqlSpecification specification){
+        return tagRepository.query(specification);
     }
 
     public void save(Tag tag) {
-        boolean existByName = tagDao.isExistByName(tag.getName());
+        boolean existByName = tagRepository.isExistByName(tag.getName());
         if (existByName){
             throw new TagExistsException(tag.getName());
         }
-        tagDao.save(tag);
+        tagRepository.save(tag);
     }
 
     public void delete(int id) {
-        boolean exist = tagDao.isExistById(id);
+        boolean exist = tagRepository.isExistById(id);
         if (!exist){
             throw new TagNotFoundException(id);
         }
-        tagDao.delete(id);
-    }
-
-    public Tag findById(int id){
-        boolean exist = tagDao.isExistById(id);
-        if (!exist){
-            throw new TagNotFoundException(id);
-        }
-        return tagDao.findById(id);
-    }
-
-    public Tag findByName(String name){
-        boolean existByName = tagDao.isExistByName(name);
-        if (!existByName){
-            throw new TagNotFoundException(name);
-        }
-        return tagDao.findByName(name);
+        tagRepository.delete(id);
     }
 }

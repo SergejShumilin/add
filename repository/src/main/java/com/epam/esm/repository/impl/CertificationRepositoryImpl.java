@@ -3,7 +3,7 @@ package com.epam.esm.repository.impl;
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.mapper.GiftCertificateMapper;
 import com.epam.esm.repository.CertificateRepo;
-import com.epam.esm.repository.SqlSpecification;
+import com.epam.esm.repository.specification.SqlSpecification;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -53,6 +53,7 @@ public class CertificationRepositoryImpl implements CertificateRepo<GiftCertific
         jdbcTemplate.update(DELETE, id);
     }
 
+    @Override
     public Boolean isExistById(int id) {
         return jdbcTemplate.queryForObject(IS_EXISTS_BY_ID, Boolean.class, id);
     }
