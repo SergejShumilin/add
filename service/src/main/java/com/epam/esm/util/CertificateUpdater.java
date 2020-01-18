@@ -1,6 +1,6 @@
 package com.epam.esm.util;
 
-import com.epam.esm.dao.entity.GiftCertificate;
+import com.epam.esm.entity.GiftCertificate;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;

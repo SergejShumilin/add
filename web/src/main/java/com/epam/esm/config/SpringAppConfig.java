@@ -1,7 +1,7 @@
 package com.epam.esm.config;
 
-import com.epam.esm.dao.connection.ConnectionPool;
-import com.epam.esm.dao.connection.ManagerDataSource;
+import com.epam.esm.connection.ConnectionPool;
+import com.epam.esm.connection.ManagerDataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

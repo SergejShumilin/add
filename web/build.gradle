@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation project(':service')
-    implementation project(':dao')
+    implementation project(':repository')
     compile group: 'org.springframework', name: 'spring-core', version: '5.2.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '5.2.2.RELEASE'
     compile group: 'org.springframework', name: 'spring-context-support', version: '5.2.2.RELEASE'

@@ -1,8 +1,8 @@
 package com.epam.esm.util;
 
-import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.entity.GiftCertificate;
-import com.epam.esm.dao.entity.Tag;
+import com.epam.esm.TagDao;
+import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.entity.Tag;
 import org.springframework.stereotype.Service;
 
 @Service

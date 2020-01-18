@@ -1,10 +1,10 @@
 package com.epam.esm.service;
 
-import com.epam.esm.dao.entity.GiftCertificate;
-import com.epam.esm.dao.exception.CertificateNotFoundException;
-import com.epam.esm.dao.mapper.GiftCertificateMapper;
-import com.epam.esm.dao.repository.CertificateSqlSpecification;
-import com.epam.esm.dao.repository.impl.CertificationRepositoryImpl;
+import com.epam.esm.entity.GiftCertificate;
+import com.epam.esm.exception.CertificateNotFoundException;
+import com.epam.esm.mapper.GiftCertificateMapper;
+import com.epam.esm.repository.SqlSpecification;
+import com.epam.esm.repository.impl.CertificationRepositoryImpl;
 import com.epam.esm.util.CertificateUpdater;
 import com.epam.esm.util.TagVerification;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class CertificateService {
         this.tagVerification = tagVerification;
     }
 
-   public List<GiftCertificate> query(CertificateSqlSpecification certificateSqlSpecification){
+   public List<GiftCertificate> query(SqlSpecification certificateSqlSpecification){
        return certificationRepository.query(certificateSqlSpecification);
    }
 
@@ -69,7 +69,4 @@ public class CertificateService {
 
     }
 
-    public List<GiftCertificate> findAll(){
-        return certificationRepository.findAll();
-    }
 }

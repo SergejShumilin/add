@@ -1,9 +1,9 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.exception.ApiError;
-import com.epam.esm.dao.exception.CertificateNotFoundException;
-import com.epam.esm.dao.exception.TagExistsException;
-import com.epam.esm.dao.exception.TagNotFoundException;
+import com.epam.esm.exception.ApiError;
+import com.epam.esm.exception.CertificateNotFoundException;
+import com.epam.esm.exception.TagExistsException;
+import com.epam.esm.exception.TagNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
