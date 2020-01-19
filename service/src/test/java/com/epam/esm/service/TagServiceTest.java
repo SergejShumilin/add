@@ -31,7 +31,7 @@ public class TagServiceTest {
 
     @Test
     public void testDeleteShouldTagDaoCallMethodDelete(){
-        Mockito.when(tagRepository.isExistById(1)).thenReturn(true);
+        Mockito.when(tagRepository.existById(1)).thenReturn(true);
         tagService.delete(1);
         Mockito.verify(tagRepository, Mockito.times(1)).delete(1);
     }
@@ -43,44 +43,18 @@ public class TagServiceTest {
         Mockito.verify(tagRepository, Mockito.times(1)).query(tagSpecificationFindAll);
     }
 
-//    @Test(expected = TagNotFoundException.class)
-//    public void testFindByIdShouldThrowException()  {
-//        tagService.findById(1);
-//        Mockito.verify(tagRepository, Mockito.times(1)).findById(1);
-//    }
-
-//    @Test(expected = TagNotFoundException.class)
-//    public void testFindByNameShouldThrowException() {
-//        tagService.findByName("name");
-//        Mockito.verify(tagRepository, Mockito.times(1)).findByName("name");
-//    }
-
     @Test(expected = TagExistsException.class)
     public void testSaveShouldThrowException() {
         Tag tag = new Tag();
         tag.setId(1);
         tag.setName("name");
-        Mockito.when(tagRepository.isExistByName("name")).thenReturn(true);
+        Mockito.when(tagRepository.existByName("name")).thenReturn(true);
         tagService.save(tag);
     }
 
     @Test(expected = TagNotFoundException.class)
     public void testDeleteShouldThrowException() {
-        Mockito.when(tagRepository.isExistById(1)).thenReturn(false);
+        Mockito.when(tagRepository.existById(1)).thenReturn(false);
         tagService.delete(1);
     }
-
-//    @Test
-//    public void testFindByIdShouldTagDaoCallMethodFindById() {
-//        Mockito.when(tagRepository.isExistById(1)).thenReturn(true);
-//        tagService.findById(1);
-//        Mockito.verify(tagRepository, Mockito.times(1)).findById(1);
-//    }
-
-//    @Test
-//    public void tetsFindByNameShouldTagDaoCallMethodFindByName() {
-//        Mockito.when(tagRepository.isExistByName("name")).thenReturn(true);
-//        tagService.findByName("name");
-//        Mockito.verify(tagRepository, Mockito.times(1)).findByName("name");
-//    }
 }
