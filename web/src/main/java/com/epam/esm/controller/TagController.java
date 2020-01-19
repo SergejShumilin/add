@@ -7,7 +7,7 @@ import com.epam.esm.repository.specification.tag.TagSpecificationFindAll;
 import com.epam.esm.service.TagService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/tags")
@@ -20,7 +20,7 @@ public class TagController {
     }
 
     @GetMapping
-    public List<Tag> query(@RequestParam(required = false) String tagName){
+    public Set<Tag> query(@RequestParam(required = false) String tagName){
         SpecificationTagFactory specificationTagFactory = new SpecificationTagFactory(tagName);
         SqlSpecification sqlSpecification = null;
         if ( tagName == null) {
@@ -32,14 +32,14 @@ public class TagController {
     }
 
     @PostMapping
-    public List<Tag> save(@RequestBody Tag tag) {
+    public Set<Tag> save(@RequestBody Tag tag) {
         tagService.save(tag);
-        return tagService.query(new TagSpecificationFindAll("findAllTags"));
+        return tagService.query(new TagSpecificationFindAll());
     }
 
     @DeleteMapping("/{id}")
-    public List<Tag> delete(@PathVariable int id) {
+    public Set<Tag> delete(@PathVariable int id) {
         tagService.delete(id);
-        return tagService.query(new TagSpecificationFindAll("findAllTags"));
+        return tagService.query(new TagSpecificationFindAll());
     }
 }

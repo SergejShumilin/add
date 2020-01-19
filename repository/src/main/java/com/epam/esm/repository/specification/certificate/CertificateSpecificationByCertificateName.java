@@ -13,6 +13,6 @@ public class CertificateSpecificationByCertificateName implements SqlSpecificati
 
     @Override
     public String toSqlClauses() {
-        return String.format("where certificates.name like '%s'", "%" + parameters.getName() + "%");
+        return String.format(" where certificates.name like '%s'", "%" + parameters.getName() + "%");
     }
 }

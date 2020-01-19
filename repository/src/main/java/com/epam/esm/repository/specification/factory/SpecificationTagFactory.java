@@ -14,11 +14,11 @@ public class SpecificationTagFactory {
     public SqlSpecification create(String action) {
         switch (action) {
             case "findAllTags":
-                return new TagSpecificationFindAll(name);
+                return new TagSpecificationFindAll();
             case "findByName":
                 return new TagSpecificationTagByName(name);
             default:
-                throw new IllegalArgumentException("Unknown command");
+                throw new IllegalArgumentException("Unknown specification");
         }
     }
 }

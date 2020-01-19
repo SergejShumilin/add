@@ -3,6 +3,7 @@ package com.epam.esm.entity;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -12,7 +13,7 @@ public class GiftCertificate extends AbstractEntity implements Serializable {
     private String createDate;
     private String lastUpdateDate;
     private int duration;
-    private Tag tag;
+    private List<Tag> tag;
 
     public String getDescription() {
         return description;
@@ -54,11 +55,11 @@ public class GiftCertificate extends AbstractEntity implements Serializable {
         this.duration = duration;
     }
 
-    public Tag getTag() {
+    public List<Tag> getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(List<Tag> tag) {
         this.tag = tag;
     }
 

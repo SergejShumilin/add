@@ -1,7 +1,6 @@
 package com.epam.esm.mapper;
 
 import com.epam.esm.entity.GiftCertificate;
-import com.epam.esm.entity.Tag;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 
 @Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
-
     @Override
     public GiftCertificate mapRow(ResultSet rs, int rowNum) throws SQLException {
         GiftCertificate giftCertificate = new GiftCertificate();
@@ -21,10 +19,6 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
         giftCertificate.setCreateDate(rs.getString("create_date"));
         giftCertificate.setLastUpdateDate(rs.getString("last_update_date"));
         giftCertificate.setDuration(rs.getInt("duration"));
-        Tag tag = new Tag();
-        tag.setId(rs.getInt("tag_id"));
-        tag.setName(rs.getString("tag_name"));
-        giftCertificate.setTag(tag);
         return giftCertificate;
     }
 

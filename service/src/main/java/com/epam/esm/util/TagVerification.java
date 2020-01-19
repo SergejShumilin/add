@@ -5,10 +5,11 @@ import com.epam.esm.entity.Tag;
 import com.epam.esm.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TagVerification {
 
-    //    private final TagDao<Tag> tagDao;
     private final TagRepository<Tag> tagRepository;
 
     public TagVerification(TagRepository<Tag> tagRepository) {
@@ -16,11 +17,14 @@ public class TagVerification {
     }
 
     public void checkAndSaveTagIfNotExist(GiftCertificate giftCertificate){
-//        Tag tag = giftCertificate.getTag();
-//        if (!tagRepository.isExistByName(tag.getName())) {
-//            tagRepository.save(tag);
-//        }
-//        tag = tagRepository.query(new TagSpecificationTagByName(tag.getName()));
-//        giftCertificate.setTag(tag);
+        List<Tag> tagList = giftCertificate.getTag();
+        for (Tag tag : tagList) {
+            boolean existByName = tagRepository.existByName(tag.getName());
+            if (!existByName){
+                tagRepository.save(tag);
+            }
+
+        }
     }
+
 }

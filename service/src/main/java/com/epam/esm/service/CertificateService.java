@@ -2,9 +2,8 @@ package com.epam.esm.service;
 
 import com.epam.esm.entity.GiftCertificate;
 import com.epam.esm.exception.CertificateNotFoundException;
-import com.epam.esm.mapper.GiftCertificateMapper;
-import com.epam.esm.repository.specification.SqlSpecification;
 import com.epam.esm.repository.impl.CertificationRepositoryImpl;
+import com.epam.esm.repository.specification.SqlSpecification;
 import com.epam.esm.util.CertificateUpdater;
 import com.epam.esm.util.TagVerification;
 import org.springframework.stereotype.Component;
@@ -13,23 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class CertificateService {
     private final CertificationRepositoryImpl certificationRepository;
-    private final GiftCertificateMapper giftCertificateMapper;
     private final CertificateUpdater certificateUpdater;
     private final TagVerification tagVerification;
 
-    public CertificateService(CertificationRepositoryImpl certificationRepository, GiftCertificateMapper giftCertificateMapper, CertificateUpdater certificateUpdater, TagVerification tagVerification) {
+    public CertificateService(CertificationRepositoryImpl certificationRepository, CertificateUpdater certificateUpdater, TagVerification tagVerification) {
         this.certificationRepository = certificationRepository;
-        this.giftCertificateMapper = giftCertificateMapper;
         this.certificateUpdater = certificateUpdater;
         this.tagVerification = tagVerification;
     }
 
-   public List<GiftCertificate> query(SqlSpecification certificateSqlSpecification){
+   public Set<GiftCertificate> query(SqlSpecification certificateSqlSpecification){
        return certificationRepository.query(certificateSqlSpecification);
    }
 
@@ -44,12 +41,12 @@ public class CertificateService {
         certificationRepository.save(giftCertificate);
     }
 
-    public void delete(int id) {
-        boolean existById = certificationRepository.isExistById(id);
+    public boolean delete(int id) {
+        boolean existById = certificationRepository.existById(id);
         if(!existById){
             throw new CertificateNotFoundException(id);
         }
-        certificationRepository.delete(id);
+        return certificationRepository.delete(id);
     }
 
     @Transactional
@@ -57,16 +54,15 @@ public class CertificateService {
         if (giftCertificate.getTag()!=null) {
             tagVerification.checkAndSaveTagIfNotExist(giftCertificate);
         }
-        boolean existById = certificationRepository.isExistById(giftCertificate.getId());
+        boolean existById = certificationRepository.existById(giftCertificate.getId());
         if (!existById){
             throw new CertificateNotFoundException("name");
         }
-//        GiftCertificate certificateFromDb = repocCertiifcate.findById(giftCertificate.getId());
+//        GiftCertificate certificateFromDb = certificationRepository.findById(giftCertificate.getId());
 //        boolean equalsCertificates = certificateFromDb.equals(giftCertificate);
 //        if (!equalsCertificates) {
 //            certificateUpdater.changeCertificate(certificateFromDb, giftCertificate);
-//            repocCertiifcate.update(certificateFromDb);
+//            certificationRepository.update(certificateFromDb);
 
     }
-
 }

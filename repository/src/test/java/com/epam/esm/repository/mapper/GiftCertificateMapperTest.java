@@ -23,7 +23,7 @@ public class GiftCertificateMapperTest implements RowMapper<GiftCertificate> {
         Tag tag = new Tag();
         tag.setId(rs.getInt("tag_id"));
         tag.setName(rs.getString("tag_name"));
-        giftCertificate.setTag(tag);
+//        giftCertificate.setTag(tag);
         return giftCertificate;
     }
 }

@@ -7,7 +7,7 @@ import com.epam.esm.repository.TagRepository;
 import com.epam.esm.repository.specification.SqlSpecification;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class TagService {
@@ -17,23 +17,23 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public List<Tag> query(SqlSpecification specification){
+    public Set<Tag> query(SqlSpecification specification){
         return tagRepository.query(specification);
     }
 
     public void save(Tag tag) {
-        boolean existByName = tagRepository.isExistByName(tag.getName());
+        boolean existByName = tagRepository.existByName(tag.getName());
         if (existByName){
             throw new TagExistsException(tag.getName());
         }
         tagRepository.save(tag);
     }
 
-    public void delete(int id) {
-        boolean exist = tagRepository.isExistById(id);
+    public boolean delete(int id) {
+        boolean exist = tagRepository.existById(id);
         if (!exist){
             throw new TagNotFoundException(id);
         }
-        tagRepository.delete(id);
+        return tagRepository.delete(id);
     }
 }
