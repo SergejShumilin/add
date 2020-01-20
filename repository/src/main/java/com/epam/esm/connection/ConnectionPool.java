@@ -4,6 +4,7 @@ import com.epam.esm.exception.DataAccessException;
 
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
+import java.lang.reflect.Proxy;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ConnectionPool {
 
     private final DataSource driverDataSource;
-    private static LinkedBlockingQueue<ProxyConnection> connectionQueue;
-    private static List<ProxyConnection> usedConnections = new ArrayList<>();
+    private static LinkedBlockingQueue<Connection> connectionQueue;
+    private static List<Connection> usedConnections = new ArrayList<>();
 
     public ConnectionPool(DataSource driverDataSource, int poolSize) throws DataAccessException {
         this.driverDataSource = driverDataSource;
         connectionQueue = new LinkedBlockingQueue<>(poolSize);
         try {
-            ProxyConnection proxyConnection = new ProxyConnection(driverDataSource.getConnection());
             for (int i = 0; i < poolSize; i++) {
+                Connection connectionOrigin = driverDataSource.getConnection();
+                ClassLoader classLoader = connectionOrigin.getClass().getClassLoader();
+                Class<?>[] interfaces = connectionOrigin.getClass().getInterfaces();
+                ConnectionInvocationHandler invocationHandler = new ConnectionInvocationHandler(connectionOrigin);
+                Connection proxyConnection = (Connection) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
                 connectionQueue.offer(proxyConnection);
             }
         } catch (SQLException e) {
@@ -31,8 +36,8 @@ public class ConnectionPool {
     /**
      * @return ProxyConnection from pool
      */
-    public ProxyConnection getConnection() {
-        ProxyConnection connection = null;
+    public Connection getConnection() {
+        Connection connection = null;
         try {
             connection = connectionQueue.take();
             usedConnections.add(connection);
@@ -45,7 +50,7 @@ public class ConnectionPool {
     /**
      * @param connection return connection to pool
      */
-    public static void releaseConnection(ProxyConnection connection) {
+    public static void releaseConnection(Connection connection) {
         try {
             boolean contains = usedConnections.contains(connection);
             if (contains) {
@@ -64,7 +69,7 @@ public class ConnectionPool {
      */
     @PreDestroy
     public void closeAll() {
-        connectionQueue.forEach(ProxyConnection::doClose);
+//        connectionQueue.forEach(ProxyConnection::doClose);
     }
 
 
