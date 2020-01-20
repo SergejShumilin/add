@@ -14,9 +14,17 @@ CREATE TABLE certificates
     create_date date,
     last_update_date date,
     duration int(10) not null,
-    tag_id int(10),
-    primary key (id),
-    foreign key (tag_id) references tags (id) on delete cascade
+    primary key (id)
+);
+
+create table connecting
+(
+id int(10) not null,
+certificate_id int(10) not null,
+tag_id int(10) not null,
+primary key (id),
+foreign key (certificate_id) references certificates (id) on delete cascade on update cascade,
+foreign key (tag_id) references tags (id) on delete cascade on update cascade
 );
 
 

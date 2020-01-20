@@ -7,7 +7,7 @@ import com.epam.esm.repository.TagRepository;
 import com.epam.esm.repository.specification.SqlSpecification;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.List;
 
 @Component
 public class TagService {
@@ -17,7 +17,7 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public Set<Tag> query(SqlSpecification specification){
+    public List<Tag> query(SqlSpecification specification){
         return tagRepository.query(specification);
     }
 

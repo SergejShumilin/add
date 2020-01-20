@@ -11,9 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,7 +20,7 @@ public class CertificationRepositoryImpl implements CertificateRepo<GiftCertific
                                          "last_update_date, duration) VALUES (?,?,?,?,?,?)";
     private final static String INSERT_CONNECT = "INSERT INTO connecting (certificate_id, tag_id) VALUES (?,?)";
     private final static String UPDATE = "UPDATE certificates SET name = ?, description=?, price=?, create_date=?,"
-                                          + " last_update_date=?, duration=?, tag_id =? WHERE id = ?";
+                                          + " last_update_date=?, duration=? WHERE id = ?";
     private final static String DELETE = "DELETE FROM certificates WHERE id = ?";
     private final static String FIND_CERTIFICATES_ID = "SELECT id FROM certificates WHERE name = ?";
     private final static String FIND_TAG_ID = "SELECT id FROM tags WHERE name = ?";
@@ -37,22 +35,25 @@ public class CertificationRepositoryImpl implements CertificateRepo<GiftCertific
 
     private final GiftCertificateMapper giftCertificateMapper;
     private final JdbcTemplate jdbcTemplate;
+    private final TagMapper tagMapper;
 
-    public CertificationRepositoryImpl(GiftCertificateMapper giftCertificateMapper, DataSource dataSource) {
+    public CertificationRepositoryImpl(GiftCertificateMapper giftCertificateMapper, DataSource dataSource, TagMapper tagMapper) {
         this.giftCertificateMapper = giftCertificateMapper;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.tagMapper = tagMapper;
     }
 
     @Override
-    public Set<GiftCertificate> query(SqlSpecification specification) {
+    public List<GiftCertificate> query(SqlSpecification specification) {
         String sqlClauses = specification.toSqlClauses();
         String query = GENERAL_QUERY + sqlClauses;
         List<GiftCertificate> certificateList = jdbcTemplate.query(query, giftCertificateMapper);
         for (GiftCertificate cert : certificateList) {
-            List<Tag> tagList = jdbcTemplate.query(FIND_TAG_BY_CERTIFICATE_ID, new Object[]{cert.getId()}, new TagMapper());
-            cert.setTag(tagList);
+            List<Tag> tagList = jdbcTemplate.query(FIND_TAG_BY_CERTIFICATE_ID, new Object[]{cert.getId()}, tagMapper);
+            cert.setTagList(tagList);
         }
-        return new HashSet<>(certificateList);
+
+        return certificateList;
     }
 
     @Override
@@ -66,8 +67,7 @@ public class CertificationRepositoryImpl implements CertificateRepo<GiftCertific
 
     private void saveConnect(GiftCertificate giftCertificate) {
         int certificateId = jdbcTemplate.queryForObject(FIND_CERTIFICATES_ID, new Object[]{giftCertificate.getName()}, Integer.class);
-
-        List<String> tagName = giftCertificate.getTag().stream()
+        List<String> tagName = giftCertificate.getTagList().stream()
                 .map(AbstractEntity::getName)
                 .collect(Collectors.toList());
         for (String name : tagName) {
@@ -78,9 +78,9 @@ public class CertificationRepositoryImpl implements CertificateRepo<GiftCertific
 
     @Override
     public void update(GiftCertificate giftCertificate) {
-//        jdbcTemplate.update(UPDATE, giftCertificate.getName(), giftCertificate.getDescription(),
-//                giftCertificate.getPrice(), giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate(),
-//                giftCertificate.getDuration(), giftCertificate.getTag().getId(), giftCertificate.getId());
+        jdbcTemplate.update(UPDATE, giftCertificate.getName(), giftCertificate.getDescription(),
+                giftCertificate.getPrice(), giftCertificate.getCreateDate(), giftCertificate.getLastUpdateDate(),
+                giftCertificate.getDuration(), giftCertificate.getId());
     }
 
     @Override

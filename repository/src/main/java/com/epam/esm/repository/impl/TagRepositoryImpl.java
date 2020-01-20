@@ -40,10 +40,9 @@ public class TagRepositoryImpl implements TagRepository<Tag> {
     }
 
     @Override
-    public Set<Tag> query(SqlSpecification specification) {
+    public List<Tag> query(SqlSpecification specification) {
         String sqlClauses = specification.toSqlClauses();
-        List<Tag> tagList = jdbcTemplate.query(GENERAL_QUERY + sqlClauses, tagMapper);
-        return new HashSet<>(tagList);
+        return jdbcTemplate.query(GENERAL_QUERY + sqlClauses, tagMapper);
     }
 
     @Override

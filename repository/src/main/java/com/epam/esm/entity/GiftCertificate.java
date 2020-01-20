@@ -13,7 +13,7 @@ public class GiftCertificate extends AbstractEntity implements Serializable {
     private String createDate;
     private String lastUpdateDate;
     private int duration;
-    private List<Tag> tag;
+    private List<Tag> tagList;
 
     public String getDescription() {
         return description;
@@ -55,12 +55,12 @@ public class GiftCertificate extends AbstractEntity implements Serializable {
         this.duration = duration;
     }
 
-    public List<Tag> getTag() {
-        return tag;
+    public List<Tag> getTagList() {
+        return tagList;
     }
 
-    public void setTag(List<Tag> tag) {
-        this.tag = tag;
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
     }
 
     @Override
@@ -74,12 +74,12 @@ public class GiftCertificate extends AbstractEntity implements Serializable {
                 Objects.equals(description, that.description) &&
                 Objects.equals(createDate, that.createDate) &&
                 Objects.equals(lastUpdateDate, that.lastUpdateDate) &&
-                Objects.equals(tag, that.tag);
+                Objects.equals(tagList, that.tagList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), description, price, createDate, lastUpdateDate, duration, tag);
+        return Objects.hash(super.hashCode(), description, price, createDate, lastUpdateDate, duration, tagList);
     }
 
 }

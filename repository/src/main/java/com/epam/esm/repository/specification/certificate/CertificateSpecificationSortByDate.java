@@ -14,7 +14,7 @@ public class CertificateSpecificationSortByDate implements SqlSpecification {
     @Override
     public String toSqlClauses() {
         String query = "ORDER BY certificates.last_update_date";
-        if (parameters.getTypeSort().equals("desc")){
+        if (parameters.getTypeSort().equalsIgnoreCase("DESC")){
             query = query + " DESC";
         }
         return query;

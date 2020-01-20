@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TagVerification {
+public class TagVerifier {
 
     private final TagRepository<Tag> tagRepository;
 
-    public TagVerification(TagRepository<Tag> tagRepository) {
+    public TagVerifier(TagRepository<Tag> tagRepository) {
         this.tagRepository = tagRepository;
     }
 
     public void checkAndSaveTagIfNotExist(GiftCertificate giftCertificate){
-        List<Tag> tagList = giftCertificate.getTag();
+        List<Tag> tagList = giftCertificate.getTagList();
         for (Tag tag : tagList) {
             boolean existByName = tagRepository.existByName(tag.getName());
             if (!existByName){

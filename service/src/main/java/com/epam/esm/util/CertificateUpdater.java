@@ -21,8 +21,8 @@ public class CertificateUpdater {
         if (certificate.getDescription()!=null && !certificate.getDescription().equals(certificateFromDb.getDescription()) ) {
             certificateFromDb.setDescription(certificate.getDescription());
         }
-        if (certificate.getTag()!=null && !certificate.getTag().equals(certificateFromDb.getTag())) {
-            certificateFromDb.setTag(certificate.getTag());
+        if (certificate.getTagList()!=null && !certificate.getTagList().equals(certificateFromDb.getTagList())) {
+            certificateFromDb.setTagList(certificate.getTagList());
         }
         if (certificate.getDuration() != certificateFromDb.getDuration()) {
             certificateFromDb.setDuration(certificate.getDuration());

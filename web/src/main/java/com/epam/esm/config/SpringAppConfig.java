@@ -2,6 +2,7 @@ package com.epam.esm.config;
 
 import com.epam.esm.connection.ConnectionPool;
 import com.epam.esm.connection.ManagerDataSource;
+import com.epam.esm.exception.DataAccessException;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,8 +16,8 @@ public class SpringAppConfig {
 
     @Bean
     @Primary
-    public DataSource dataSource() {
-        return new ManagerDataSource(myConnectionPool());
+    public DataSource dataSource() throws DataAccessException {
+        return new ManagerDataSource(connectionPool());
     }
 
     @Bean
@@ -30,7 +31,7 @@ public class SpringAppConfig {
     }
 
     @Bean
-    public ConnectionPool myConnectionPool(){
+    public ConnectionPool connectionPool() throws DataAccessException {
         return new ConnectionPool(mysqlDataSource(), 20);
     }
 

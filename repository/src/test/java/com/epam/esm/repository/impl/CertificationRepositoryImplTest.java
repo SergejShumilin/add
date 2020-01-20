@@ -32,19 +32,19 @@ public class CertificationRepositoryImplTest {
     private GiftCertificateMapperTest giftCertificateMapper;
 
     @Test
-    public void isExistById() {
-        boolean expected = repository.isExistById(1);
+    public void existById() {
+        boolean expected = repository.existById(1);
         Boolean actual = jdbcTemplate.queryForObject("SELECT EXISTS(SELECT id FROM certificates WHERE id = ?)", Boolean.class, 1);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void query() {
-//        Parameters parameters =new Parameters();
-//        parameters.setName("name certificates ");
-//        List<GiftCertificate> expected = repository.query(new CertificateSpecificationByCertificateName(parameters));
-//        List<GiftCertificate> actual = repository.query(new CertificateSpecificationByCertificateName(parameters));
-//        Assert.assertEquals(expected, actual);
+        Parameters parameters =new Parameters();
+        parameters.setName("name");
+        List<GiftCertificate> expected = repository.query(new CertificateSpecificationByCertificateName(parameters));
+        List<GiftCertificate> actual = repository.query(new CertificateSpecificationByCertificateName(parameters));
+        Assert.assertEquals(expected, actual);
     }
 
     @Test

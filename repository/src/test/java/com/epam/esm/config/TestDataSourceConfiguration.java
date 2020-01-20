@@ -13,8 +13,7 @@ import javax.sql.DataSource;
 @Profile("set")
 public class TestDataSourceConfiguration {
 
-//    @Bean(destroyMethod = "shutdown")
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)

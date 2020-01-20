@@ -13,6 +13,19 @@ public class CertificateSpecificationByCertificateName implements SqlSpecificati
 
     @Override
     public String toSqlClauses() {
-        return String.format(" where certificates.name like '%s'", "%" + parameters.getName() + "%");
+        String sort = "";
+        if (parameters.getSort()!=null && parameters.getTypeSort()!=null) {
+            String sortByDate = "";
+            if (parameters.getSort().equalsIgnoreCase("date")) {
+                sortByDate = " ORDER BY certificates.last_update_date";
+            } else if (parameters.getSort().equalsIgnoreCase("name")) {
+                sortByDate = " ORDER BY certificates.name";
+            }
+
+            if (parameters.getTypeSort().equalsIgnoreCase("DESC")) {
+                sortByDate = sortByDate + " DESC";
+            }
+        }
+        return " where certificates.name like '" + "%" + parameters.getName() + "%'" + sort;
     }
 }

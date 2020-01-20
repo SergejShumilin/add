@@ -13,6 +13,20 @@ public class CertificateSpecificationByTagName implements SqlSpecification {
 
     @Override
     public String toSqlClauses() {
-        return String.format("where tags.name = %s", parameters.getTagName());
+        String sort = "";
+        if (parameters.getSort()!=null && parameters.getTypeSort()!=null) {
+            String sortByDate = "";
+            if (parameters.getSort().equalsIgnoreCase("date")) {
+                sortByDate = " ORDER BY certificates.last_update_date";
+            } else if (parameters.getSort().equalsIgnoreCase("name")) {
+                sortByDate = " ORDER BY certificates.name";
+            }
+
+            if (parameters.getTypeSort().equalsIgnoreCase("DESC")) {
+                sortByDate = sortByDate + " DESC";
+            }
+        }
+
+        return "where tags.name = " + parameters.getTagName() + sort;
     }
 }
