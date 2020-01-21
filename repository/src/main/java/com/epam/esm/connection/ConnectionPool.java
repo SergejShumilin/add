@@ -2,7 +2,6 @@ package com.epam.esm.connection;
 
 import com.epam.esm.exception.DataAccessException;
 
-import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.sql.*;
@@ -56,21 +55,9 @@ public class ConnectionPool {
             if (contains) {
                 connectionQueue.put(connection);
                 usedConnections.remove(connection);
-            } else {
-                throw new IllegalArgumentException();
             }
         } catch (InterruptedException e) {
 
         }
     }
-
-    /**
-     * close all connections in pool
-     */
-    @PreDestroy
-    public void closeAll() {
-//        connectionQueue.forEach(ProxyConnection::doClose);
-    }
-
-
 }
